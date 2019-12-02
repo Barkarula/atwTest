@@ -1,0 +1,137 @@
+@import "~styles/variables";
+
+.WorkersContainer {
+  $self: &;
+
+  margin: 20px;
+  // for bottom;
+  margin-bottom: 40px;
+
+ &-loader {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 25vh 100px;
+  // margin: 20px 0;
+  // Хедер и тайтл
+  height: calc(100vh - 48px - 30px - 50px - 14px);
+ }
+ 
+ &__title {
+    // font-size: 1.5em;
+    text-align: center;
+
+    display: block;
+    font-size: 30px;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+ }
+}
+
+.message {
+  $self: &;
+
+  &__content {
+    display: flex;
+    max-width: 440px;
+    margin-bottom: 15px;
+    position: relative;
+  }
+
+  &__avatar {
+    display: flex;
+    flex-direction: column-reverse;
+    img {
+      border-radius: 50px;
+      width: 33px;
+      height: 33px;
+      margin-right: 13px;
+      margin-bottom: 23px;
+    }
+  }
+
+  &__bubble {
+    background: $blue;
+    box-shadow: 0px 5px 5px rgba(54, 116, 255, 0.196733);
+    border-radius: 12px 12px 12px 0px;
+    padding: 15px;
+    margin-bottom: 8px;
+  }
+
+  &__date {
+    font-size: 12px;
+    opacity: 0.5;
+  }
+
+  &__text {
+    color: #fff;
+    line-height: 20px;
+  }
+
+  &__attachments {
+    display: flex;
+    margin-bottom: 5px;
+    &-item {
+      margin-right: 5px;
+      cursor: pointer;
+      img {
+        width: 45px;
+        height: 45px;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  &__icon-readed {
+    position: absolute;
+    bottom: 22px;
+    left: -25px;
+
+    &--no {
+      left: -20px;
+    }
+  }
+
+  &--isme {
+    display: flex;
+    flex-direction: row-reverse;
+
+    #{$self}__content {
+      margin-bottom: 15px;
+      flex-direction: row-reverse;
+    }
+
+    #{$self}__avatar {
+      img {
+        margin-right: 0;
+        margin-left: 13px;
+      }
+    }
+
+    #{$self}__info {
+      text-align: right;
+    }
+
+    #{$self}__bubble {
+      background: #ffffff;
+      border: 1px solid #ececec;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.0220444);
+      border-radius: 12px 12px 0px 12px;
+      #{$self}__text {
+        color: $black;
+      }
+    }
+  }
+}
+
+/* Mobile ----------- */
+//576px
+@media (max-width:768px) {
+    .WorkersContainer__pagination {
+      text-align: center;
+    }
+}

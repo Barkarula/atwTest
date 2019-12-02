@@ -1,0 +1,660 @@
+// 20190716013414
+// http://test.atwinta.ru/docs/api-docs.json
+
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Project Test API",
+    "version": "1.0.0"
+  },
+  "basePath": "/api/v1",
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Авторизация"
+        ],
+        "summary": "Авторизация",
+        "parameters": [
+          {
+            "name": "Форма авторизации (подробнее см. Model)",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/LoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Токен пользователя и информация о нём",
+            "$ref": "#/definitions/AuthTokenWithUser"
+          },
+          "406": {
+            "description": "Пользователь не подтвердил почту"
+          },
+          "408": {
+            "description": "Ошибка в заполнении данных"
+          },
+          "default": {
+            "description": "Any expected error"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Авторизация"
+        ],
+        "summary": "Регистрация пользователя",
+        "parameters": [
+          {
+            "name": "Форма регистрации (подробнее см. Model)",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/RegisterRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Токен пользователя и информация о нём",
+            "$ref": "#/definitions/AuthTokenWithUser"
+          },
+          "408": {
+            "description": "Слишком много пользователей было зарегистрированно за последний час"
+          },
+          "409": {
+            "description": "Пользователь с такой почтой уже существует"
+          },
+          "default": {
+            "description": "Any expected error"
+          }
+        }
+      }
+    },
+    "/auth/restore": {
+      "post": {
+        "tags": [
+          "Авторизация"
+        ],
+        "summary": "Подтверждение восстановления пароля",
+        "parameters": [
+          {
+            "name": "Форма для заявки на восстановление пароля",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SendRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Запрос был отправлен"
+          },
+          "default": {
+            "description": "Any expected error"
+          }
+        }
+      }
+    },
+    "/auth/restore/confirm": {
+      "post": {
+        "tags": [
+          "Авторизация"
+        ],
+        "summary": "Подтверждение восстановления пароля",
+        "parameters": [
+          {
+            "name": "Форма подтверждения восстановления",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/RestoreConfirmRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Пользователь успешно сменил пароль"
+          },
+          "404": {
+            "description": "Пользователь с таким токеном не найден"
+          },
+          "default": {
+            "description": "Any expected error"
+          }
+        }
+      }
+    },
+    "/departments": {
+      "get": {
+        "tags": [
+          "Прочее"
+        ],
+        "summary": "Список всех отделов и должностей",
+        "description": "Доступно только для авторизированных пользователей",
+        "responses": {
+          "200": {
+            "description": "Список всех отделов и должностей",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Department"
+              }
+            }
+          },
+          "default": {
+            "description": "Any expected error"
+          }
+        }
+      }
+    },
+    "/workers": {
+      "get": {
+        "tags": [
+          "Сотрудники"
+        ],
+        "summary": "Просмотр списка сотрудников",
+        "description": "Доступно только для авторизированных пользователей",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "path",
+            "description": "Поиск по имени (show_name)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "department_id",
+            "in": "path",
+            "description": "ID Отдела",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "position_id",
+            "in": "path",
+            "description": "ID должности",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Пагинированный список сотрудников",
+            "schema": {
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/UserCard"
+                  }
+                },
+                "total": {
+                  "type": "string"
+                },
+                "per_page": {
+                  "type": "integer"
+                },
+                "current_page": {
+                  "type": "integer"
+                },
+                "last_page": {
+                  "type": "integer"
+                },
+                "next_page_url": {
+                  "type": "string"
+                },
+                "prev_page_url": {
+                  "type": "string"
+                },
+                "from": {
+                  "type": "integer"
+                },
+                "to": {
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Any expected error"
+          }
+        }
+      }
+    },
+    "/workers/{user}": {
+      "get": {
+        "tags": [
+          "Сотрудники"
+        ],
+        "summary": "Просмотр данных сотрудника",
+        "description": "Доступно только для авторизированных пользователей",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "id сотрудника",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные о сотруднике",
+            "$ref": "#/definitions/UserWorker"
+          },
+          "default": {
+            "description": "Any expected error"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "Пользователь"
+        ],
+        "summary": "Просмотр данных пользователя",
+        "description": "Доступно только для авторизированных пользователей",
+        "responses": {
+          "200": {
+            "description": "Данные о пользователе",
+            "$ref": "#/definitions/User"
+          },
+          "default": {
+            "description": "Any expected error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Пользователь"
+        ],
+        "summary": "Изменение данных пользователя",
+        "description": "Доступно только для авторизированных пользователей",
+        "parameters": [
+          {
+            "name": "Форма изменения (подробнее см. Model)",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/UpdateUserRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные о пользователе",
+            "$ref": "#/definitions/User"
+          },
+          "default": {
+            "description": "Any expected error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ConfirmRequest": {
+      "description": "Confirm request",
+      "required": [
+        "token"
+      ],
+      "properties": {
+        "token": {
+          "description": "формат токена: %d-%s",
+          "type": "string"
+        }
+      }
+    },
+    "FilterRequest": {
+      "description": "Filter request",
+      "properties": {
+        "query": {
+          "description": "Поиск по имени",
+          "type": "string"
+        },
+        "department_id": {
+          "description": "ID Отдела",
+          "type": "integer"
+        },
+        "position_id": {
+          "description": "ID должности",
+          "type": "integer"
+        }
+      }
+    },
+    "LoginRequest": {
+      "description": "Login request",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "description": "Email пользователя",
+          "type": "string"
+        },
+        "password": {
+          "description": "Пароль пользователя",
+          "type": "string"
+        }
+      }
+    },
+    "RegisterRequest": {
+      "description": "Register request",
+      "required": [
+        "name",
+        "email",
+        "type",
+        "password",
+        "password_confirmation"
+      ],
+      "properties": {
+        "name": {
+          "description": "Отображаемое имя пользователя",
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "type": {
+          "description": "Имеет два значения: front, back",
+          "type": "string"
+        },
+        "github": {
+          "description": "Ссылка на GitHub (или другой репозиторий)",
+          "type": "string"
+        },
+        "city": {
+          "description": "Город",
+          "type": "string"
+        },
+        "phone": {
+          "description": "Номер телефона",
+          "type": "string"
+        },
+        "birthday": {
+          "description": "год рождения",
+          "type": "string"
+        }
+      }
+    },
+    "RestoreConfirmRequest": {
+      "description": "Restore confirm request",
+      "required": [
+        "token",
+        "password",
+        "password_confirmation"
+      ],
+      "properties": {
+        "token": {
+          "description": "формат токена: %d-%s",
+          "type": "string"
+        },
+        "password": {
+          "description": "Минимум 6 символов",
+          "type": "string"
+        },
+        "password_confirmation": {
+          "description": "Должно совпадать с password",
+          "type": "string"
+        }
+      }
+    },
+    "SendRequest": {
+      "description": "Send confirm request",
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "email": {
+          "description": "Почта пользователя",
+          "type": "string"
+        }
+      }
+    },
+    "UpdateUserRequest": {
+      "description": "Update user request",
+      "required": [
+        "name",
+        "about",
+        "image",
+        "password",
+        "new_password",
+        "new_password_confirmation"
+      ],
+      "properties": {
+        "show_name": {
+          "description": "Отображаемое имя",
+          "type": "string"
+        },
+        "about": {
+          "description": "О себе",
+          "type": "string"
+        },
+        "image": {
+          "description": "Аватар",
+          "type": "file"
+        },
+        "github": {
+          "description": "Ссылка на GitHub (или другой репозиторий)",
+          "type": "string"
+        },
+        "city": {
+          "description": "Город",
+          "type": "string"
+        },
+        "is_finished": {
+          "description": "Было ли закончено задание",
+          "type": "boolean"
+        },
+        "telegram": {
+          "description": "Telegram аккаунт",
+          "type": "string"
+        },
+        "phone": {
+          "description": "Номер телефона",
+          "type": "string"
+        },
+        "birthday": {
+          "description": "год рождения",
+          "type": "string"
+        }
+      }
+    },
+    "AuthTokenWithUser": {
+      "description": "Токен авторизации и информация о пользователе",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Department": {
+      "description": "Информация об отделе",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "worker": {
+          "description": "Список должностей",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkPosition"
+          }
+        }
+      }
+    },
+    "LengthAwarePaginator": {
+      "description": "Length aware paginator",
+      "required": [
+        "total",
+        "per_page",
+        "current_page",
+        "last_page",
+        "next_page_url",
+        "prev_page_url",
+        "from",
+        "to"
+      ],
+      "properties": {
+        "total": {
+          "type": "string"
+        },
+        "per_page": {
+          "type": "integer"
+        },
+        "current_page": {
+          "type": "integer"
+        },
+        "last_page": {
+          "type": "integer"
+        },
+        "next_page_url": {
+          "type": "string"
+        },
+        "prev_page_url": {
+          "type": "string"
+        },
+        "from": {
+          "type": "integer"
+        },
+        "to": {
+          "type": "integer"
+        }
+      }
+    },
+    "UserCard": {
+      "description": "Краткая информация о пользователе",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "login": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "description": "Информация о пользователе",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "login": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "github": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "is_finished": {
+          "type": "boolean"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "birthday": {
+          "type": "string"
+        }
+      }
+    },
+    "UserWorker": {
+      "description": "Информация о пользователе",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "login": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "github": {
+          "type": "string"
+        },
+        "worker": {
+          "description": "Данное поле будет появляться если пользователь является сотрудником",
+          "type": "object",
+          "$ref": "#/definitions/Worker"
+        }
+      }
+    },
+    "WorkPosition": {
+      "description": "Информация о должности",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Worker": {
+      "description": "Информация о сотруднике",
+      "properties": {
+        "department": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "adopted_at": {
+          "description": "Дата поступления",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

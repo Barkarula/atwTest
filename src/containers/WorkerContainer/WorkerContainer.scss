@@ -1,0 +1,20 @@
+@import "~styles/variables";
+
+.WorkerContainer {
+  $self: &;
+
+  margin: 20px;
+
+ &-loader {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 25vh 100px;
+  height: calc(100vh - 48px - 30px - 50px + 40px);
+ }
+ 
+ &__title {
+    // font-size: 1.5em;
+ }
+}

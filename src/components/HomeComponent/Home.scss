@@ -1,0 +1,46 @@
+@import "~styles/variables";
+
+.HomeContainer {
+  $self: &;
+
+  margin: 20px;
+
+  &__topTitle {
+    text-align: center;
+  }
+
+  &__title {
+    font-size: 56px !important;
+    display: block !important;
+  }
+
+  &__subTitle {
+
+    display: block !important;
+  }
+
+  &__title::after {
+    // position: absolute;
+    position: relative;
+    // bottom: -10px;
+    bottom: 0px;
+    // left: 44%;
+    display: block;
+    width: 38px;
+    height: 5px;
+    content: "";
+    background: #f61f9d;
+    margin-left: auto;
+    margin-right: auto;
+    left: 4px;
+  }
+
+ &__infoText {
+   margin-top:20px;
+ }
+
+ &__textTitle {
+   font-size: 16px !important;
+   font-weight: 400 !important;
+ }
+}

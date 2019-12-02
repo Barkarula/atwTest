@@ -1,0 +1,47 @@
+@import "~reset-css";
+@import "~antd/dist/antd.css";
+
+body,
+html,
+#root,
+.wrapper {
+  height: 100%;
+  color: #202020;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+}
+
+// fix ant design
+.has-success .ant-input-affix-wrapper .ant-input, .has-success .ant-input-affix-wrapper .ant-input:hover {
+    border-color: #67c23a !important;
+} 
+.has-success .ant-input:focus {
+    border-color: #67c23a !important;
+    border-right-width: 1px !important;
+    outline: 0;
+    //-webkit-box-shadow: 0 0 0 2px rgba(103, 194, 58, 0.2);
+    //box-shadow: 0 0 0 2px rgba(103, 194, 58, 0.2) !important;
+}
+
+.profile {
+  float: right;
+}
+
+.loader {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 25vh 100px;
+  height: calc(100vh - 48px - 30px);
+
+  margin: 12px;
+ }
+/* Desktops and laptops ----------- */
+// 768px
+@media screen and (max-width:576px) {
+    .profile {
+    float: none;
+    }
+}
