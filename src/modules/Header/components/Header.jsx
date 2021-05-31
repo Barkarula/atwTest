@@ -1,16 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Icon, Menu } from "antd"; // Row, Col,
+import { Row, Col } from "antd";
 import store from "redux/store";
 
-//const { SubMenu } = Menu;
+import "./Header.scss";
 
 class Header extends React.Component {
   state = {
-    current: 'mail',
+    current: "mail",
   };
 
-  handleClick = e => {
+  handleClick = (e) => {
     this.setState({
       current: e.key,
     });
@@ -25,26 +26,37 @@ class Header extends React.Component {
     let storeState = store.getState();
     let name;
 
-    //Войти
-    if(storeState.user.data === null)
-    {
-      name = <div><Icon type="setting" />Войти</div>;
+    if (storeState.user.data === null) {
+      name = (
+        <div>
+          <Icon type="setting" />
+          Войти
+        </div>
+      );
     } else {
       name = storeState.user.data.name;
     }
 
     return (
-      <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">
-        <Menu.Item key="home" title='Главная'>
+      <Menu
+        onClick={this.handleClick}
+        selectedKeys={[this.state.current]}
+        mode="horizontal"
+        className="header"
+      >
+        <Menu.Item key="home" title="Главная" className="header__home">
           <Link to="/home">Главная</Link>
         </Menu.Item>
         <Menu.Item key="reference">
           <Link to="/reference">Задание и помощь</Link>
         </Menu.Item>
         <Menu.Item key="workers">
-          <Link to="/workers"><Icon type="appstore" />Сотрудники</Link>
+          <Link to="/workers">
+            <Icon type="appstore" />
+            Сотрудники
+          </Link>
         </Menu.Item>
-        <Menu.Item key="setting" className="profile">
+        <Menu.Item key="setting" className="profile header__profile">
           <Link to="/profile">{name}</Link>
         </Menu.Item>
       </Menu>
@@ -53,23 +65,3 @@ class Header extends React.Component {
 }
 
 export default Header;
-
-        // <SubMenu
-        //   title={
-        //     <span className="submenu-title-wrapper">
-        //       Задание и помощь
-        //     </span>
-        //   }
-        // >
-        //   <Menu.ItemGroup title="Задание">
-        //     <Menu.Item key="setting:1">Описание</Menu.Item>
-        //     <Menu.Item key="setting:2">Авторизация</Menu.Item>
-        //     <Menu.Item key="setting:3">Сотрудники</Menu.Item>
-        //     <Menu.Item key="setting:4">Профиль</Menu.Item>
-        //   </Menu.ItemGroup>
-        //   <Menu.ItemGroup title="Помощь">
-        //     <Menu.Item key="setting:5">Frontend</Menu.Item>
-        //     <Menu.Item key="setting:6">Backend</Menu.Item>
-        //     <Menu.Item key="setting:7">GIT</Menu.Item>
-        //   </Menu.ItemGroup>
-        //</SubMenu>

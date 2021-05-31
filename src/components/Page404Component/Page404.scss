@@ -1,9 +1,15 @@
 @import "~styles/variables";
 
-.ReferenceContainer {
+.page404 {
   $self: &;
 
   margin: 20px;
+  text-align: center;
+  margin-top: 30vh;
+
+  &__button {
+    margin-top: 20px;
+  }
 
   &__title {
     text-align: center;
@@ -18,26 +24,24 @@
     margin-top: 30px;
   }
 
- //  &__subTitle {
+  //  &__subTitle {
 
- //    display: block !important;
- //  }
+  //    display: block !important;
+  //  }
 
- // &__infoText {
- //   margin-top:20px;
- // }
+  // &__infoText {
+  //   margin-top:20px;
+  // }
 
- // &__textTitle {
- //   font-size: 16px !important;
- //   font-weight: 400 !important;
- // }
+  // &__textTitle {
+  //   font-size: 16px !important;
+  //   font-weight: 400 !important;
+  // }
 }
 
-.ant-collapse-item-active  > .ant-collapse-header
-{
+.ant-collapse-item-active > .ant-collapse-header {
   color: #409eff !important;
 }
-.ant-collapse-header
-{
+.ant-collapse-header {
   font-weight: 800 !important;
 }
